@@ -1,28 +1,23 @@
 Spring Boot CXF Integration
 ===========================
 
-Spring Boot integration for CXF, specifically for JAX-RS.
+Spring Boot with CXF & Swagger capabilities, running as a WAR deployment
 
 ## Usage ##
 
-Add the following to your `pom.xml` (updating `<version>` where appropriate):
+1. Install the WAR file on WAS
+2. Specify a Context root of your choosing
+3. Update classloader to Run as PARENT_LAST: Websphere Enterprise Apps > SB-CXF-WAS_war > Manage Modules > SB-CXF-WAS_war: 
+- Update Classloader order to: Classes load with local class loader first (parent last)  
+4. Start the WAR, it may take a little longer than expected due to WAS Annotation Scanning... this can be updated by specifting JARs to ignore scanning in the META-INF/MANIFEST.MF
+5. Goto : http://{hostname}:{port}/{contextRoot}/services/sayHello/{Your Name}
 
-    <dependency>
-        <groupId>com.internetitem.spring</groupId>
-        <artifactId>spring-boot-cxf-jaxrs</artifactId>
-        <version>1.1</version>
-    </dependency>
+## Versions ##
 
-All beans tagged with `@Path` will be automatically added as JAX-RS Services. All beans tagged with `@Provider` will be added as JAX-RS Providers.
+Spring Boot : 1.4.3-RELEASE
+CXF : 3.1.7
 
-## Dependencies ##
+## Other ##
 
-You must declare Spring, Spring Boot and CXF as dependencies. This POM will bring in Jackson (for JSON support) automatically.
-
-## Customization ##
-
- * The property `cxf.path` can be used to customize where the CXF Servlet is "mounted". It defaults to "`/services/*`"
- * If the property `cxf.log.requests` is set, request data will be logged
- * If a bean of type `JacksonJsonProvider` (such as `JacksonJaxbJsonProvider`) is found, that will be used instead of the built-in version
- * If a bean of type `ObjectMapper` is found, that will be used instead of the built-in version
+WAS sucks so be ready for some dependency hell ;) 
 
